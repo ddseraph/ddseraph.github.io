@@ -1,4 +1,4 @@
-name: 渲染公告板
+name: bulletin-render
 
 on:
   push:
@@ -23,29 +23,29 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: 检出代码
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: 安装中文字体
+      - name: Install fonts
         run: sudo apt-get update && sudo apt-get install -y fonts-noto-cjk
 
-      - name: 安装 Pillow
+      - name: Install Pillow
         run: pip install Pillow
 
-      - name: 渲染公告板
+      - name: Render
         env:
           GAODE_KEY: ${{ secrets.GAODE_KEY }}
           NOTICES_URL: https://gitee.com/ddseraph/bulletin/raw/master/notices.txt
         run: python cloud_render.py
 
-      - name: 配置 Pages
+      - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      - name: 上传构建产物
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: '_site'
 
-      - name: 部署到 Pages
+      - name: Deploy to Pages
         id: deployment
         uses: actions/deploy-pages@v4
