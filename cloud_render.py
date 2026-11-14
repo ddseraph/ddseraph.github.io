@@ -54,6 +54,7 @@ def load_notices():
 # ---------- 天气 ----------
 def get_weather():
     if not GAODE_KEY:
+        print("天气未获取：GAODE_KEY 环境变量为空")
         return None
     try:
         opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
@@ -77,7 +78,8 @@ def get_weather():
         except Exception:
             pass
         return text
-    except Exception:
+    except Exception as e:
+        print("天气获取失败: %r" % e)
         return None
 
 
@@ -154,16 +156,16 @@ def render_png():
     y += 12
 
     # 公告（最下）
-    body_font = load_font(56)
+    body_font = load_font(50)
     for notice in notices:
-        lines = wrap_text(notice, 11)
-        d.rectangle([40, y + 22, 56, y + 38], fill=0)
+        lines = wrap_text(notice, 13)
+        d.rectangle([40, y + 20, 56, y + 36], fill=0)
         d.text((70, y), lines[0], font=body_font, fill=0)
-        y += 88
+        y += 80
         for line in lines[1:]:
             d.text((70, y), line, font=body_font, fill=0)
-            y += 88
-        y += 28
+            y += 80
+        y += 26
         if y > H - 60:
             break
 
