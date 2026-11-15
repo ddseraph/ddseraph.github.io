@@ -35,7 +35,7 @@ jobs:
       - name: Render
         env:
           GAODE_KEY: ${{ secrets.GAODE_KEY }}
-          NOTICES_URL: https://gitee.com/ddseraph/bulletin/raw/master/notices.txt
+          GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
         run: python cloud_render.py
 
       - name: Configure Pages
